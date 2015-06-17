@@ -62,7 +62,7 @@ The following steps will be run, in order:
 Confirm? [y/n]
 ```
 
-Drake is telling you it's going to run one step, and explains why: the output word-freqs.txt doesn't exist yet, and this one step will create it for us. Enter 'y' to confirm. Drake will run your workflow and you should see output like this:
+Drake is telling you it's going to run one step, and explains why: the output file `word-freqs.txt` doesn't exist yet, and this one step will create it for us. Enter 'y' to confirm. Drake will run your workflow and you should see output like this:
 
 ```
 Running 1 steps with concurrence of 1...
@@ -74,7 +74,7 @@ Done (1 steps run).
 
 Drake completed the workflow, producing the word frequences file that we wanted. Open up `word-freqs.txt` to see the specific results generated from your `book.txt` input.
 
-If we try to run the workflow again, Drake will tell us it's not necessary:
+If we try to run the workflow again, Drake tells us it's not necessary:
 
 ```
 drake
@@ -100,7 +100,7 @@ Drake will choose to rerun the step and re-write `word-freqs.txt` because it see
 
 ## Human Resources Workflow
 
-Let's look at a "Human Resources" workflow that demonstrates use of Drake's support for multiple protocols, multiple inputs, and multiple outputs. The full workflow is available in Drake's public repo, under the `demos` directory:
+Let's look at a "Human Resources" workflow that demonstrates Drake's support for multiple protocols, multiple inputs, and multiple outputs. The full workflow is available in Drake's public repo, under the `demos` directory:
 https://github.com/Factual/drake/blob/develop/demos/human-resources/Drakefile
 
 Here's what we see when we graph it:
@@ -111,7 +111,7 @@ open drake.png
 
 ![alt text](https://github.com/dirtyvagabond/drake-user-manual/blob/master/images/human-resources-workflow.png "Human Resources Workflow, graphed")
 
-You can see that one of the steps takes multiple inputs (the inputs `skills` and `people` are used to produce the `skills.people` output). Also note that one of the steps produces multiple outputs (the input `people.json` is an input to a step that produces `last_gt_first.txt` and `first_gt_last.txt`). Drake provides a lot of flexibility here; a Drake step can require as many inputs as you like and produce as many outputs as you like. You can also reuse inputs and outputs throughout your workflow.
+You can see that one of the steps takes multiple inputs: `skills` and `people` are used to produce the `skills.people` output. Also note that one of the steps produces multiple outputs: `people.json` is an input to a step that produces `last_gt_first.txt` and `first_gt_last.txt`. Drake provides a lot of flexibility here; a Drake step can require as many inputs as you like and produce as many outputs as you like. You can also reuse inputs and outputs throughout your workflow.
 
 Let's examine each Human Resources step individually...
 
@@ -196,53 +196,10 @@ for_HR.csv <- people.json [c4row]
 
 ## Artem's "People Skills" Workflow
 
-Let's play with the workflow demonstrated by Artem in his [introductory screencast for Drake](http://www.youtube.com/watch?v=BUgxmvpuKAs)[2]:
-
-```
-;
-; Cleans up the skills file.
-; Input lines are like:
-;   Artem Boytsov,flying southwest
-;   REAL BAD ENTRY
-;   Maverick Lou,java clojure jenkins
-;
-skills.filtered <- skills
-  grep -v BAD $INPUT > $OUTPUT
-
-;
-; Starts with people formatted like...
-;   Crow,Aaron,310-300-0000
-;   Pepi,Vinnie,+86-310-400-0000
-;   Lao,Will,+86-310-600-0000
-;
-; ...and ends with people.fullname formatted like:
-;   Aaron Crow, 310-300-0000
-;   Vinnie Pepi, +86-310-400-0000
-;   Will Lao, +86-310-600-0000
-;
-people.fullname <- people
-  awk -F, '{ print $2 " " $1 ", " $3}' $INPUT > $OUTPUT
-
-;
-; Simple sort of our people...
-;
-people.sorted <- people.fullname
-  sort $INPUT > $OUTPUT
-
-;
-; Joins sorted people to their skills. output is like:
-;   Aaron Crow,java ruby clojure, 310-300-0000
-;   Artem Boytsov,flying southwest, 310-100-0000
-;   Maverick Lou,java clojure jenkins, +86-310-200-0000
-;
-output <- skills.filtered, people.sorted
-  echo Number of inputs: $INPUTN
-  echo All inputs: $INPUTS
-  echo Joining ...
-  join -t, $INPUTS > $OUTPUT
-```
+If you'd like a screencast companion to walk you through a fun Drake workflow, check out Artem's [introductory screencast for Drake](http://www.youtube.com/watch?v=BUgxmvpuKAs)[2]. The workflow he demonstrates is available in Drake's public repo, under the `demos` directory:
+https://github.com/Factual/drake/tree/develop/demos/people-skills
 
 ## Footnotes
 
-1. Thanks Dr Drang for [the story about Doug McIlroy[http://www.leancrew.com/all-this/2011/12/more-shell-less-egg]
-2. We've been tickled by the relative popularity of Artem's video, which has been viewed over 5,000 times. Or as Artem once put it: “Since launch, people spent cumulative 639.8 hours watching Drake tutorial on Youtube, which is not Apache Hadoop, of course, but still pretty neat. :)”. http://www.youtube.com/watch?v=BUgxmvpuKAs
+1. Thanks Dr Drang for [the story about Doug McIlroy](http://www.leancrew.com/all-this/2011/12/more-shell-less-egg)
+2. We're tickled by the relative popularity of Artem's video, which has been viewed over 7,000 times. Or as Artem once put it: "Since launch, people spent cumulative 639.8 hours watching Drake tutorial on Youtube, which is not Apache Hadoop, of course, but still pretty neat. :)". http://www.youtube.com/watch?v=BUgxmvpuKAs
