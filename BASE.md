@@ -1,12 +1,12 @@
 # Change your workflow directory with BASE
 
-Drake by default assumes you want the working directory to be the same directory as your Drakefile. So Drake reads inputs from there and writes outputs to there, regardless of where you called Drake from.
+Drake by default assumes you want the working directory to be the same directory as your Drakefile.
 
-Drake tracks the working directory in the special variable `BASE`. You can redefine the value of `BASE` if you wish Drake to use a different working directory while your workflow is running.
+When Drake starts, it assigns the working directory to a special variable, `BASE`. As Drake runs it looks for inputs in `BASE` and writes outputs to `BASE`.
 
-## What is BASE?
+A benefit of this is that you can run your Drake workflow for anywhere, and Drake will make sure to do all work in the same place as your Drakefile. This is a nice way to centralize your work.
 
-BASE is a special variable in Drake. Its value is automatically added to every input or output file name in the workflow. It defines the base directory for all data files. It can contain a file system prefix, and because of the behavior of variables described above, it can be redefined in nested files easily, providing a crude method for creating reusable procedures in Drake.
+However, you may not always want this behaviour. You can redefine the value of `BASE` if you wish Drake to use a different working directory while your workflow is running.
 
 ## Simple BASE example
 
@@ -28,7 +28,7 @@ In the above workflow, all inputs will be read from the `/backup/CPG` directory 
 
 ## Setting BASE on the command line
 
-If $[BASE] is defined using := syntax (see variable redefinition), or not defined in the workflow file at all, you can set its value from the command­line, either by creating an environment variable BASE or using the `­­base command­line` flag.
+If $[BASE] is defined using := syntax (see variable redefinition), or not defined in the workflow file at all, you can set its value from the command­line, either by creating an environment variable BASE or using the `­­base` command­line flag.
 
 ## Subtask example
 
