@@ -4,7 +4,7 @@ Drake by default assumes you want the working directory to be the same directory
 
 When Drake starts, it assigns the working directory to a special variable, `BASE`. As Drake runs it looks for inputs in `BASE` and writes outputs to `BASE`.
 
-A benefit of this is that you can run your Drake workflow for anywhere, and Drake will make sure to do all work in the same place as your Drakefile. This is a nice way to centralize your work.
+A benefit of this is that you can run your Drake workflow from anywhere, and Drake will make sure to do all work in the same place as your Drakefile. This is a nice way to centralize your work.
 
 However, you may not always want this behaviour. You can redefine the value of `BASE` if you wish Drake to use a different working directory while your workflow is running.
 
